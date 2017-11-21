@@ -1,6 +1,6 @@
 package com.weds.antd.appserver.vo;
 
-public class User {
+public class LoginInfo {
 
     private String userName;
 

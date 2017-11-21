@@ -2,42 +2,49 @@ package com.weds.antd.appserver.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.weds.antd.appserver.service.LoginService;
+import com.weds.antd.appserver.utils.JsonUtils;
+import com.weds.antd.appserver.vo.LoginInfo;
+import com.weds.antd.appserver.vo.ResponseVo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/login")
 public class LoginAction {
 
-    @RequestMapping(value = "account", method = RequestMethod.POST)
-    public JSONObject login(HttpServletRequest request, HttpServletResponse response) {
-        JSONObject renJson = new JSONObject();
-        try {
-            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            JSONObject json = JSON.parseObject(body);
-            if (json.get("userName").equals("admin") && json.get("password").equals("888888")) {
-                renJson.put("status", "ok");
-                renJson.put("type", "account");
-                Cookie cookie = new Cookie("token", "123");
-                cookie.setMaxAge(900000);
-                cookie.setHttpOnly(true);
-                response.addCookie(cookie);
-            } else {
-                renJson.put("status", "error");
-                renJson.put("type", "account");
-            }
+    private static final Log log = LogFactory.getLog(LoginAction.class);
 
-            System.out.println(renJson);
+    @Resource
+    private LoginService loginService;
+
+    @RequestMapping(value = "account", method = RequestMethod.POST)
+    public ResponseVo login(HttpServletRequest request) {
+        ResponseVo response;
+        try {
+            log.info("enter controller: login/account...");
+            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            log.info("param:##" + body);
+            LoginInfo loginInfo = JsonUtils.jsonToObject(body, LoginInfo.class);
+            log.info("success to parse json to LoginInfo.");
+            response = loginService.accountLogin(loginInfo);
+            log.info("returnMap:##" + response);
         } catch (IOException e) {
             e.printStackTrace();
+            response = new ResponseVo("-1","error",null);
         }
-        return renJson;
+        return response;
     }
 }
