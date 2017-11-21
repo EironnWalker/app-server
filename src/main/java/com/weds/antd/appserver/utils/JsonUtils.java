@@ -3,6 +3,8 @@ package com.weds.antd.appserver.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JsonUtils {
 
@@ -20,5 +22,19 @@ public class JsonUtils {
     public static  <T> T jsonToObject(String jsonInString, Class<T> valueType) throws IOException {
         //JSON from String to Object
         return mapper.readValue(jsonInString, valueType);
+    }
+
+    public static void test() {
+        Pattern p = Pattern.compile("^/login.*$");
+        Matcher matcher = p.matcher("/l1ogin/account111");
+        if (matcher.matches()) {
+            System.out.println("ok");
+        } else {
+            System.out.println("failed");
+        }
+    }
+
+    public static void main(String[] args) {
+        test();
     }
 }

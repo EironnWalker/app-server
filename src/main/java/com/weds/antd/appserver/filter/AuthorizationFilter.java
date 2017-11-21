@@ -1,7 +1,6 @@
 package com.weds.antd.appserver.filter;
 
 import com.weds.antd.appserver.cons.FilterConstants;
-import com.weds.antd.appserver.cons.JWTConstants;
 import com.weds.antd.appserver.utils.JWTUtils;
 import org.apache.catalina.connector.RequestFacade;
 import org.apache.catalina.connector.ResponseFacade;
@@ -37,23 +36,20 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String url = ((RequestFacade) request).getRequestURI();
-        System.out.println(url);
         if (isInclude(url)) {
             filterChain.doFilter(request, response);
         } else {
             // 执行登录验证
             final String authorization = ((RequestFacade) request).getHeader(HttpHeaders.AUTHORIZATION);
-            if (!Strings.isNullOrEmpty(authorization) && authorization.contains(" ")) {
+            if (!Strings.isNullOrEmpty(authorization) && !authorization.contains("null")) {
                 String[] strArray = authorization.split(" ");
                 int result = JWTUtils.verifyTokenHMAC256(strArray[1]);
                 if (1 == result) {
                     filterChain.doFilter(request, response);
-                } else {
-                    ((ResponseFacade) response).sendError(301,"Not Logged");
                 }
+            } else {
+                ((ResponseFacade) response).sendError(301,"Not Logged");
             }
-            System.out.println(authorization.split(" ")[1]);
-            JWTUtils.verifyTokenHMAC256(authorization.split(" ")[1]);
         }
     }
 
