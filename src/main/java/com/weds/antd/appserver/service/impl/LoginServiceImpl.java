@@ -48,6 +48,25 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
+     * 获取当前登录用户的信息
+     *
+     * @return
+     */
+    @Override
+    public ResponseVo getLoginUser() {
+        ResponseVo response = new ResponseVo();
+        JSONObject data = new JSONObject();
+        response.setResult("1");
+        response.setMsg("success");
+        data.put("name", "Serati Ma");
+        data.put("avatar", "https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png");
+        data.put("userid", "00000001");
+        data.put("notifyCount", 12);
+        response.setData(data);
+        return response;
+    }
+
+    /**
      * 校验登录
      * @param loginInfo
      * @return

@@ -3,8 +3,6 @@ package com.weds.antd.appserver.service;
 import com.weds.antd.appserver.vo.LoginInfo;
 import com.weds.antd.appserver.vo.ResponseVo;
 
-import java.util.Map;
-
 public interface LoginService {
 
     /**
@@ -13,5 +11,11 @@ public interface LoginService {
      * @return
      */
     ResponseVo accountLogin(LoginInfo loginInfo);
+
+    /**
+     * 获取当前登录用户的信息
+     * @return
+     */
+    ResponseVo getLoginUser();
 
 }

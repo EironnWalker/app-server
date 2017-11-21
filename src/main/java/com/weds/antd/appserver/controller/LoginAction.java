@@ -36,20 +36,29 @@ public class LoginAction {
             log.info("returnMap:##" + response);
         } catch (IOException e) {
             e.printStackTrace();
+            log.error("/login/account:##failed" + e.getMessage());
             response = new ResponseVo("-1","error",null);
         }
         return response;
     }
 
+
+    /**
+     * 获取当前登录用户
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
     public ResponseVo getLoginUser(HttpServletRequest request) {
         ResponseVo response;
         try {
             log.info("enter controller: /currentUser...");
-
+            response = loginService.getLoginUser();
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("/currentUser:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
         }
-        return null;
+        return response;
     }
 }
