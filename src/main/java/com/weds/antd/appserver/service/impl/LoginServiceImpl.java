@@ -1,6 +1,8 @@
 package com.weds.antd.appserver.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.weds.antd.appserver.service.LoginService;
+import com.weds.antd.appserver.utils.JWTUtils;
 import com.weds.antd.appserver.vo.LoginInfo;
 import com.weds.antd.appserver.vo.ResponseVo;
 import org.apache.commons.logging.Log;
@@ -29,9 +31,14 @@ public class LoginServiceImpl implements LoginService {
         }
         // mock login
         if ("admin".equals(loginInfo.getUserName()) && "888888".equals(loginInfo.getPassword())) {
+            JSONObject data = new JSONObject();
             response.setResult("1");
             response.setMsg("success");
-            response.setData("account");
+            data.put("type", "account");
+            // 返回token
+            String token = JWTUtils.getTokenHMAC256("123");
+            data.put("token", token);
+            response.setData(data);
         } else {
             response.setResult("-1");
             response.setMsg("用户名或密码错误！");

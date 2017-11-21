@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/login")
 public class LoginAction {
 
     private static final Log log = LogFactory.getLog(LoginAction.class);
@@ -30,7 +29,7 @@ public class LoginAction {
     @Resource
     private LoginService loginService;
 
-    @RequestMapping(value = "account", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/account", method = RequestMethod.POST)
     public ResponseVo login(HttpServletRequest request) {
         ResponseVo response;
         try {
@@ -46,5 +45,16 @@ public class LoginAction {
             response = new ResponseVo("-1","error",null);
         }
         return response;
+    }
+
+    @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
+    public ResponseVo getLoginUser(HttpServletRequest request) {
+        ResponseVo response;
+        try {
+            log.info("enter controller: /currentUser...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
