@@ -61,7 +61,6 @@ public class LoginServiceImpl implements LoginService {
         data.put("name", "Serati Ma");
         data.put("avatar", "https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png");
         data.put("userid", "00000001");
-        data.put("notifyCount", 12);
         response.setData(data);
         return response;
     }
