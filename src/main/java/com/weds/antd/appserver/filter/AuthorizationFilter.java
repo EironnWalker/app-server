@@ -48,7 +48,7 @@ public class AuthorizationFilter implements Filter {
                     filterChain.doFilter(request, response);
                 }
             } else {
-                ((ResponseFacade) response).sendError(301,"Not Logged");
+                ((ResponseFacade) response).sendError(401,"Not Logged");
             }
         }
     }
