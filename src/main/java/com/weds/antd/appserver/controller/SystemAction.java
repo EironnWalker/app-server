@@ -31,11 +31,9 @@ public class SystemAction {
         ResponseVo response;
         try {
             log.info("enter controller:SystemAction## /sysInfo...");
-            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            log.info("param:##" + body);
             response = systemService.getSystemInfo();
             log.info("returnMap:##" + response);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.error("SystemAction ##: /sysInfo:##failed" + e.getMessage());
             response = new ResponseVo("-1","error",null);
