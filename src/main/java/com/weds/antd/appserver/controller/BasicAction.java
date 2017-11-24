@@ -1,7 +1,9 @@
 package com.weds.antd.appserver.controller;
 
 import com.weds.antd.appserver.service.DatabaseService;
+import com.weds.antd.appserver.service.RedisService;
 import com.weds.antd.appserver.vo.DatabaseParam;
+import com.weds.antd.appserver.vo.RedisParam;
 import com.weds.antd.appserver.vo.ResponseVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +21,9 @@ public class BasicAction {
 
     @Resource
     private DatabaseService databaseService;
+
+    @Resource
+    private RedisService redisService;
 
     @RequestMapping(value = "/databaseList", method = RequestMethod.GET)
     public ResponseVo queryDatabaseList(HttpServletRequest request) {
@@ -47,6 +52,38 @@ public class BasicAction {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("BasicAction ##: /changeDatabaseStatus:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error","changeStatus");
+        }
+        return response;
+    }
+
+
+    @RequestMapping(value = "/redisList", method = RequestMethod.GET)
+    public ResponseVo queryRedisList(HttpServletRequest request) {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /redisList...");
+            response = redisService.queryRedisList();
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /redisList:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/changeRedisStatus", method = RequestMethod.GET)
+    public ResponseVo changeRedisStatus(HttpServletRequest request, RedisParam redisParam) {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /changeRedisStatus...");
+            log.info("param: ##" + redisParam.toString());
+            response = redisService.changeRedisStatus(redisParam);
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /changeRedisStatus:##failed" + e.getMessage());
             response = new ResponseVo("-1","error","changeStatus");
         }
         return response;
