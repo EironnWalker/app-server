@@ -1,6 +1,7 @@
 package com.weds.antd.appserver.controller;
 
 import com.weds.antd.appserver.service.DatabaseService;
+import com.weds.antd.appserver.service.MqService;
 import com.weds.antd.appserver.service.RedisService;
 import com.weds.antd.appserver.vo.DatabaseParam;
 import com.weds.antd.appserver.vo.RedisParam;
@@ -24,6 +25,10 @@ public class BasicAction {
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private MqService mqService;
+
 
     @RequestMapping(value = "/databaseList", method = RequestMethod.GET)
     public ResponseVo queryDatabaseList(HttpServletRequest request) {
@@ -84,6 +89,37 @@ public class BasicAction {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("BasicAction ##: /changeRedisStatus:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error","changeStatus");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/mqList", method = RequestMethod.GET)
+    public ResponseVo queryMqList(HttpServletRequest request) {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /mqList...");
+            response = mqService.queryMqList();
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /mqList:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/delMq", method = RequestMethod.GET)
+    public ResponseVo delMq(HttpServletRequest request, int id) {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /delMq...");
+            log.info("param: ## id =" + id);
+            response = mqService.delMq(id);
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /delMq:##failed" + e.getMessage());
             response = new ResponseVo("-1","error","changeStatus");
         }
         return response;
