@@ -36,7 +36,6 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String url = ((RequestFacade) request).getRequestURI();
-        System.out.println(url);
         if (isInclude(url)) {
             filterChain.doFilter(request, response);
         } else {
