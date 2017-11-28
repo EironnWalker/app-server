@@ -1,9 +1,12 @@
 package com.weds.antd.appserver.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.weds.antd.appserver.config.InterfaceProperties;
+import com.weds.antd.appserver.entity.SystemChart;
 import com.weds.antd.appserver.service.SystemService;
+import com.weds.antd.appserver.utils.JsonUtils;
 import com.weds.antd.appserver.vo.ResponseVo;
 import com.weds.antd.appserver.xml.Application;
 import com.weds.antd.appserver.xml.Applications;
@@ -15,6 +18,7 @@ import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +36,7 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     @Override
-    public ResponseVo getSystemInfo() throws JAXBException {
+    public ResponseVo getSystemInfo() throws JAXBException, IOException {
         // 请求apps接口，获取应用详情。
         String body = HttpRequest.get(eureka.getAppsUrl()).body();
         JAXBContext jaxbContext = JAXBContext.newInstance(Applications.class);
@@ -55,13 +59,26 @@ public class SystemServiceImpl implements SystemService {
         }
 
         JSONObject data = new JSONObject();
+        // 获取图表数据
+        String chartBody = HttpRequest.get(eureka.getChartUrl()).accept("application/json") //Sets request header
+                .body();
+        JSONObject chartData = JSON.parseObject(chartBody);
+        if (600 == Integer.valueOf(chartData.get("code").toString())) {
+            System.out.println(JSON.toJSONString(chartData.get("data")));
+            SystemChart chart = JsonUtils.jsonToObject(JSON.toJSONString(chartData.get("data")), SystemChart.class);
+            data.put("cpu", chart.getcPUTotalUsage());
+            data.put("mer", chart.getMemoryTotalUsage());
+            data.put("storage", chart.getDiskTotalUsage());
+        } else {
+            data.put("cpu", 0);
+            data.put("mer", 0);
+            data.put("storage", 0);
+        }
         data.put("centerCounts", centerCountsSet.size());
         data.put("appCounts", application.size());
         data.put("instantCounts", instanceCount);
         data.put("equipmentCounts", 16);
-        data.put("cpu", 28);
-        data.put("mer", 28);
-        data.put("storage", 60);
+
         ResponseVo responseVo = new ResponseVo("1", "success", data);
         return responseVo;
     }

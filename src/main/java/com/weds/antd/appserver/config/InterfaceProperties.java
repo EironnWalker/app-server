@@ -15,7 +15,18 @@ public class InterfaceProperties {
         @NotNull
         private String appsUrl;
 
+        @NotNull
+        private String chartUrl;
+
         public Eureka() {
+        }
+
+        public String getChartUrl() {
+            return chartUrl;
+        }
+
+        public void setChartUrl(String chartUrl) {
+            this.chartUrl = chartUrl;
         }
 
         public String getAppsUrl() {

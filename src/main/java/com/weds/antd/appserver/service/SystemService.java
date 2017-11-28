@@ -3,6 +3,7 @@ package com.weds.antd.appserver.service;
 import com.weds.antd.appserver.vo.ResponseVo;
 
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 
 public interface SystemService {
 
@@ -10,5 +11,5 @@ public interface SystemService {
      * dashboard 中的系统概览数据获取
      * @return
      */
-    ResponseVo getSystemInfo() throws JAXBException;
+    ResponseVo getSystemInfo() throws JAXBException, IOException;
 }
