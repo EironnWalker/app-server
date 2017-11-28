@@ -39,7 +39,40 @@ public class InterfaceProperties {
         @NotNull
         private String pwd;
 
+        @NotNull
+        private String queuesUrl;
+
+        @NotNull
+        private String exchangesUrl;
+
+        @NotNull
+        private String channelsUrl;
+
         public Mq() {
+        }
+
+        public String getChannelsUrl() {
+            return channelsUrl;
+        }
+
+        public void setChannelsUrl(String channelsUrl) {
+            this.channelsUrl = channelsUrl;
+        }
+
+        public String getExchangesUrl() {
+            return exchangesUrl;
+        }
+
+        public void setExchangesUrl(String exchangesUrl) {
+            this.exchangesUrl = exchangesUrl;
+        }
+
+        public String getQueuesUrl() {
+            return queuesUrl;
+        }
+
+        public void setQueuesUrl(String queuesUrl) {
+            this.queuesUrl = queuesUrl;
         }
 
         public String getVhostsUrl() {

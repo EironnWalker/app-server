@@ -124,4 +124,50 @@ public class BasicAction {
         }
         return response;
     }
+
+    @RequestMapping(value = "/queuesList", method = RequestMethod.GET)
+    public ResponseVo queryQueuesList() {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /queuesList...");
+            response = mqService.queryQueueList();
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /queuesList:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/exchangesList", method = RequestMethod.GET)
+    public ResponseVo queryExchangesList() {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /exchangesList...");
+            response = mqService.queryExchangesList();
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /exchangesList:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/channelsList", method = RequestMethod.GET)
+    public ResponseVo queryChannelsList() {
+        ResponseVo response;
+        try {
+            log.info("enter controller:BasicAction## /channelsList...");
+            response = mqService.queryChannelsList();
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("BasicAction ##: /channelsList:##failed" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
 }

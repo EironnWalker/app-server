@@ -1,8 +1,12 @@
 package com.weds.antd.appserver.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weds.antd.appserver.entity.Views;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +27,24 @@ public class JsonUtils {
         //JSON from String to Object
         return mapper.readValue(jsonInString, valueType);
     }
+
+    public static <T> List<T> jsonToListObject(String jsonInString, Class<T> valueType) throws IOException {
+        try {
+            return mapper.readValue(
+                    jsonInString,
+                    mapper.getTypeFactory().constructCollectionType(List.class, valueType)
+            );
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("error when convert json to list object");
+        }
+    }
+
+    public static <T,R> List<T> jsonToListObjectView(String jsonInString, Class<T> valueType, Class<R> viewType) throws IOException {
+        return mapper.readerWithView(viewType).forType(mapper.getTypeFactory().constructCollectionType(List.class, valueType)).readValue(jsonInString);
+    }
+
 
     public static void test() {
         Pattern p = Pattern.compile("^/login.*$");

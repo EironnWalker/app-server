@@ -49,7 +49,7 @@ public class SystemServiceImpl implements SystemService {
             List<Instance> instance = application.get(i).getInstances();
             instanceCount += instance.size();
             for (int j = 0; j < instance.size(); j++) {
-                DataCenterInfo center = instance.get(i).getDataCenterInfo();
+                DataCenterInfo center = instance.get(j).getDataCenterInfo();
                 centerCountsSet.add(center.getName());
             }
         }
