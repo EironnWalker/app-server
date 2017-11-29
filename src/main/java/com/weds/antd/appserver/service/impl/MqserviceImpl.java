@@ -158,7 +158,6 @@ public class MqserviceImpl implements MqService {
         // 请求接口，获取数据
         String body = HttpRequest.get(mq.getChannelsUrl()).basic(mq.getUserName(), mq.getPwd()).accept("application/json") //Sets request header
                 .body();
-        System.out.println(body);
         // 将json字符串转为对象
         List<Channels> list = JsonUtils.jsonToListObjectView(body, Channels.class, Views.NormalChannels.class);
         // 存入 dataSource中
