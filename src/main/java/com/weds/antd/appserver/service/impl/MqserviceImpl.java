@@ -158,6 +158,7 @@ public class MqserviceImpl implements MqService {
         // 请求接口，获取数据
         String body = HttpRequest.get(mq.getChannelsUrl()).basic(mq.getUserName(), mq.getPwd()).accept("application/json") //Sets request header
                 .body();
+        System.out.println(body);
         // 将json字符串转为对象
         List<Channels> list = JsonUtils.jsonToListObjectView(body, Channels.class, Views.NormalChannels.class);
         // 存入 dataSource中
@@ -178,13 +179,13 @@ public class MqserviceImpl implements MqService {
             dataEntity.put("unconfirmed", channels.getMessages_unconfirmed());
             dataEntity.put("prefetch", channels.getPrefetch_count());
             dataEntity.put("unacked", channels.getMessages_unacknowledged());
-            if (null != channels.getMessage_stats() && null != channels.getMessage_stats().getGet_details()) {
-                dataEntity.put("publish", channels.getMessage_stats().getGet_details().get("rate") + "/s");
+            if (null != channels.getMessage_stats() && null != channels.getMessage_stats().getPublish_details()) {
+                dataEntity.put("publish", channels.getMessage_stats().getPublish_details().get("rate") + "/s");
             } else {
                 dataEntity.put("publish", "");
             }
-            if (null != channels.getMessage_stats() && null != channels.getMessage_stats().getDeliver_details()) {
-                dataEntity.put("confirm", channels.getMessage_stats().getDeliver_details().get("rate") + "/s");
+            if (null != channels.getMessage_stats() && null != channels.getMessage_stats().getConfirm_details()) {
+                dataEntity.put("confirm", channels.getMessage_stats().getConfirm_details().get("rate") + "/s");
             } else {
                 dataEntity.put("confirm", "");
             }
