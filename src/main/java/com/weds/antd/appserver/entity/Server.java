@@ -10,13 +10,13 @@ import java.sql.Timestamp;
  */
 public class Server {
 
-    private int id;
+    private String id;
 
     private String appName;
 
     private String instantName;
 
-    private int status;
+    private String status;
 
     private Timestamp registryTime;
 
@@ -31,11 +31,11 @@ public class Server {
     public Server() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -55,11 +55,11 @@ public class Server {
         this.instantName = instantName;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
