@@ -1,6 +1,7 @@
 package com.weds.antd.appserver.controller;
 
 import com.weds.antd.appserver.service.EquipmentService;
+import com.weds.antd.appserver.vo.EquipmentDetailParam;
 import com.weds.antd.appserver.vo.EquipmentParam;
 import com.weds.antd.appserver.vo.ResponseVo;
 import org.apache.commons.logging.Log;
@@ -31,6 +32,22 @@ public class EquipmentAction {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("error EquipmentAction: ## /equipmentList" + e.getMessage());
+            response = new ResponseVo("-1","error",null);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/equipmentDetailList", method = RequestMethod.GET)
+    public ResponseVo queryEquipmentDetailList(EquipmentDetailParam equipmentDetailParam) {
+        ResponseVo response;
+        try {
+            log.info("enter EquipmentAction: ## /equipmentDetailList...");
+            log.info("param:##" + equipmentDetailParam);
+            response = equipmentService.queryEquipmentDetailList(equipmentDetailParam);
+            log.info("returnMap:##" + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("error EquipmentAction: ## /equipmentDetailList" + e.getMessage());
             response = new ResponseVo("-1","error",null);
         }
         return response;
